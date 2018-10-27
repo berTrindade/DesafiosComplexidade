@@ -84,6 +84,7 @@ public class SetimoDesafio {
 		public void calculateAsBase() {
 			int left= 0;
 			int right =0;
+			meio.calculate();
 			for( Estrutura e : this.left){
 				left += e.calculate() * ( this.left.size() - this.left.indexOf(e));
 			}
