@@ -1,0 +1,103 @@
+
+import java.util.Scanner;
+
+public class ThirdChallenge 
+ {
+ 	private int number = 0;
+ 	
+ 	/*
+ 	 * Source(s):
+ 	 * + http://www.danielmathews.info/wp-content/uploads/2001/06/pascal.pdf
+ 	 * + https://youtu.be/0iMtlus-afo
+ 	 * + https://youtu.be/XMriWTvPXHI
+ 	 * + https://medium.com/i-math/top-10-secrets-of-pascals-triangle-6012ba9c5e23
+ 	 * + https://youtu.be/W89FKhuJE8U
+ 	 * + https://youtu.be/OMr9ZF1jgNc
+ 	 */
+	
+ 	public static void main(String[] args) 
+ 	{
+ 		Scanner scanner = new Scanner(System.in);
+ 		
+        System.out.print("Enter the row number upto which Pascal's triangle has to be printed: ");
+        int row = scanner.nextInt();
+ 		
+ 		ThirdChallenge n = new ThirdChallenge(row);
+ 		
+ 		n.getNumberOfEvenNumbers();
+ 		
+ 		scanner.close();
+	}
+ 	
+	public ThirdChallenge(int number)
+	{
+		this.number = number;
+	}
+	
+ 	private int getNumberOfOddsRow(int rowNumber)
+ 	{
+ 		/* The number of odd numbers in a pyramid line is equal 2 to the power of 1's of the number of lines represented in base 2 (binary). 
+ 		 * 
+ 		 * For example, 
+ 		 * 
+ 		 * Row number in decimal (n): 0 1 2 3 4 5 6
+ 		 * Number in binary: 0 1 10 11 100 101 110 
+ 		 * Number of 1’s: 0 1 1 2 1 2 2 3 1 2 2
+ 		 * 
+ 		 * 2^0 = 1
+ 		 * 2^1 = 2
+ 		 * 2^1 = 2
+ 		 * 2^2 = 4
+ 		 * 2^1 = 2
+ 		 * 2^2 = 4
+ 		 * 2^2 = 4
+ 		 * 
+ 		 * Odd numbers (2^N(1’s in binary representation of n): 1 2 2 4 2 4 4
+ 		 * 
+ 		 */
+ 		
+		int ones = 0;
+		ones = countOnes(Integer.toBinaryString(rowNumber).toCharArray());
+		
+		return (int) Math.pow(2, ones);
+	}
+
+ 	// Add even numbers
+	private void getNumberOfEvenNumbers()
+	{
+		int result = 0;
+		
+		for (int row = 0; row < this.number; row++)
+			result += getNumberOfEvenForRow(row);
+		
+		System.out.println("Numeros pares até linha " + this.number + ": " + result);
+	}
+	
+	/* 
+	 * Get even numbers by row from ((n + 1) - each odd number occurrence)
+	 * 
+	 * Example, 
+	 * 
+	 * Even numbers: 0 0 1 0 3 2 3
+	 */
+	private int getNumberOfEvenForRow(int row) 
+	{
+ 		int numberOfElementsInRow = row + 1;
+ 		
+		return numberOfElementsInRow - this.getNumberOfOddsRow(row);
+	}
+	
+	// Receive the row binary representation, searches for the occurrence of the number 1 in the string, counts and returns its counting
+ 	private int countOnes(char[] rowsInBinary) 
+ 	{
+		int result = 0;
+		
+		for(char element : rowsInBinary)
+		{
+			if(element == '1')
+				result++;
+		}
+		
+		return result;
+	}
+}
